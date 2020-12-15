@@ -12,12 +12,12 @@ export function getAuthUrl() {
   const authContext = new ConfidentialClientApplication({
     auth: {
       clientId: msalConfiguration.clientID,
-      authority: msalConfiguration.authority.replace('common', msalConfiguration.tenantID),
       clientSecret: msalConfiguration.clientSecret
     }
   });
   return authContext.getAuthCodeUrl({
-    redirectUri: msalConfiguration.redirectUri
+    redirectUri: msalConfiguration.redirectUri,
+    scopes: ["offline_access", "User.Read" , "Mail.Read"]
   });
 }
 
@@ -30,14 +30,13 @@ export function getTokenFromCode(code) {
   const authContext = new ConfidentialClientApplication({
     auth: {
       clientId: msalConfiguration.clientID,
-      authority: msalConfiguration.authority.replace('common', msalConfiguration.tenantID),
       clientSecret: msalConfiguration.clientSecret
     }
   });
   return authContext.acquireTokenByCode({
     code: code,
     redirectUri: msalConfiguration.redirectUri,
-    scopes: [resource]
+    scopes: ["offline_access" , "User.Read" , "Mail.Read"]
   });
 }
 
@@ -45,7 +44,7 @@ export function getAppOnlyToken() {
   const authContext = new ConfidentialClientApplication({
     auth: {
       clientId: msalConfiguration.clientID,
-      authority: msalConfiguration.authority.replace('common', msalConfiguration.tenantID),
+      authority: msalConfiguration.authority,
       clientSecret: msalConfiguration.clientSecret
     }
   });

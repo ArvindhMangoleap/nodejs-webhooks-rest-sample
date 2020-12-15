@@ -44,6 +44,7 @@ authRouter.get('/signin', async (req, res) => {
 authRouter.get('/callback', async (req, res, next) => {
   try {
     const token = await getTokenFromCode(req.query.code);
+    console.log(token);
     const subscriptionData = await createSubscription(token);
     res.redirect(
       '/home.html?subscriptionId=' + subscriptionData.id
